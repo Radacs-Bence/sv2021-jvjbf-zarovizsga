@@ -1,7 +1,10 @@
 package org.training360.finalexam.players;
 
+
 import org.springframework.web.bind.annotation.*;
 
+
+import javax.validation.Valid;
 import java.util.List;
 
 @RestController
@@ -16,17 +19,19 @@ public class PlayersController {
 
 
     @GetMapping
-    public List<PlayerDTO> listAllPlayers(){
+    public List<PlayerDTO> listAllPlayers() {
         return playersService.listAllPlayers();
     }
 
     @PostMapping
-    public PlayerDTO savePlayer(@RequestBody CreatePlayerCommand command){
+    public PlayerDTO savePlayer(@Valid @RequestBody CreatePlayerCommand command) {
         return playersService.savePlayer(command);
     }
 
     @DeleteMapping("/{id}")
-    public void deletePlayer(@PathVariable Long id){
+    public void deletePlayer(@PathVariable Long id) {
         playersService.deletePlayer(id);
     }
+
+
 }

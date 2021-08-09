@@ -51,6 +51,7 @@ public class TeamsService {
         return modelMapper.map(team, TeamDTO.class);
     }
 
+    @Transactional
     public TeamDTO addFreePlayer(Long id, UpdateWithExistingPlayerCommand command) {
         Team team = teamsRepository.findById(id).orElseThrow(() -> new IllegalArgumentException("Team not found: " + id));
 

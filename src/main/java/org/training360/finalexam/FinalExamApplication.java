@@ -18,9 +18,5 @@ public class FinalExamApplication {
         return new ModelMapper();
     }
 
-    @Bean
-    public ObjectMapper objectMapper(){
-        return new ObjectMapper().findAndRegisterModules();
-    }
 
 }
