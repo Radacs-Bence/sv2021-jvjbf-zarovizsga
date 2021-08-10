@@ -55,18 +55,22 @@ public class TeamsService {
     public TeamDTO addFreePlayer(Long id, UpdateWithExistingPlayerCommand command) {
         Team team = teamsRepository.findById(id).orElseThrow(() -> new IllegalArgumentException("Team not found: " + id));
 
-        Player player = playersRepository.findById(command.getPlayer_id()).orElseThrow(() -> new IllegalArgumentException("Player not found: " + id));
+        Player player = playersRepository.findById(command.getPlayerId()).orElseThrow(() -> new IllegalArgumentException("Player not found: " + id));
 
         if(player.getTeam() != null){
             throw new IllegalArgumentException("Player already has a team");
         }
 
-        if (team.getPlayers().stream().filter(p -> p.getPosition() == player.getPosition()).count() >= 2){
+        if (positionChecker(team, player)){
             throw new IllegalArgumentException("Team already has a enough players in that position");
         }
 
         team.addPlayer(player);
 
         return modelMapper.map(team, TeamDTO.class);
+    }
+
+    private boolean positionChecker(Team team, Player player) {
+        return team.getPlayers().stream().filter(p -> p.getPosition() == player.getPosition()).count() >= 2;
     }
 }
